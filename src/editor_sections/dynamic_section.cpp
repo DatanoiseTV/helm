@@ -60,10 +60,8 @@ void DynamicSection::paintBackground(Graphics& g) {
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextForComponent(g, TRANS("Portamento"), portamento_);
-  drawTextForComponent(g, TRANS("Type"), portamento_type_,
-                       size_ratio_ * 4.0f + (knob_width - text_height) / 3.0f);
-  drawTextForComponent(g, TRANS("Legato"), legato_,
-                       size_ratio_ * 4.0f + (knob_width - text_height) / 3.0f);
+  drawTextForComponent(g, TRANS("Type"), portamento_type_);
+  drawTextForComponent(g, TRANS("Legato"), legato_);
 }
 
 void DynamicSection::resized() {
