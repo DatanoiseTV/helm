@@ -31,15 +31,25 @@ class HelmApplication : public JUCEApplication {
         kOpen,
       };
 
-      MainWindow(String name, bool visible = true) :
+      MainWindow(String name, bool visible = true, bool fullscreen = false) :
           DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons, visible) {
         editor_ = new HelmEditor(visible);
         if (visible) {
           editor_->animate(LoadSave::shouldAnimateWidgets());
 
-          setUsingNativeTitleBar(true);
+        if(fullscreen)
+        {
           setContentOwned(editor_, true);
           setResizable(true, true);
+          setFullScreen(true);
+          setTitleBarHeight(0);
+        } else {
+          setContentOwned(editor_, true);
+          setUsingNativeTitleBar(true);
+          setResizable (true, true);
+        }
+        
+         
 
           constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
                                       2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
@@ -169,12 +179,14 @@ class HelmApplication : public JUCEApplication {
         std::cout << "  -h, --help                          Show help options" << newLine << newLine;
         std::cout << "Application Options:" << newLine;
         std::cout << "  -v, --version                       Show version information and exit" << newLine;
+        std::cout << "  --fullscreen                        Run in full screen mode." << newLine;
         std::cout << "  --headless                          Run without graphical interface." << newLine << newLine;
         quit();
       }
       else {
         bool visible = !command.contains(" --headless ");
-        main_window_ = new MainWindow(getApplicationName(), visible);
+        bool fullscreen = command.contains(" --fullscreen ");
+        main_window_ = new MainWindow(getApplicationName(), visible, fullscreen);
 
         StringArray args = getCommandLineParameterArray();
         File file;
