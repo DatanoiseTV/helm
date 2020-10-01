@@ -67,9 +67,9 @@ namespace mopo {
     };
 
     const std::string off_auto_on_slider[] = {
-      "OFF",
-      "AUT",
-      "ON"
+      "Off",
+      "Auto",
+      "On"
     };
 
     const std::string filter_style[] = {
