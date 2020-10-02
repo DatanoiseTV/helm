@@ -30,7 +30,7 @@ class SynthGuiInterface;
 
 class SynthBase : public MidiManager::Listener,
                   private juce::OSCReceiver, // [1]
-                  private juce::OSCReceiver::ListenerWithOSCAddress<juce::OSCReceiver::MessageLoopCallback> // [2]
+                  private juce::OSCReceiver::Listener<juce::OSCReceiver::MessageLoopCallback> // [2]
 {
   public:
     SynthBase();
@@ -53,6 +53,7 @@ class SynthBase : public MidiManager::Listener,
         const std::string& destination);
     
     void oscMessageReceived (const juce::OSCMessage& message) override;
+    void oscBundleReceived (const juce::OSCBundle& bundle) override;
   
     mopo::Output* getModSource(const std::string& name);
 

@@ -37,8 +37,15 @@ SynthBase::SynthBase() {
   memory_reset_period_ = mopo::MEMORY_RESOLUTION;
   memory_input_offset_ = 0;
   memory_index_ = 0;
+    
+    connect(6448);
+    //addListener(this, OSCAddress("/osc[0-9]"));
+    addListener(this);
 
-  if (! sender.connect ("127.0.0.1", 9001))   // [4]
+
+    
+
+  if (! sender.connect ("192.168.2.232", 8000))   // [4]
             printf("Error: could not connect to UDP port 9001.");
 
 
@@ -47,22 +54,44 @@ SynthBase::SynthBase() {
 }
 
 
+
+void SynthBase::oscBundleReceived (const juce::OSCBundle& bundle)
+{
+    for(int i=0; i < bundle.size(); i++)
+    {
+        auto message = bundle[i].getMessage();
+        std::string tmp = message.getAddressPattern().toString().replace("/","").toStdString();
+            char name[tmp.size()+1];
+            strcpy(name, tmp.c_str());
+            
+            float value = message[0].getFloat32();
+
+            controls_[name]->set(value);
+                ValueChangedCallback* callback = new ValueChangedCallback(this, name, value);
+                setValueNotifyHost(name, value);
+                callback->post();
+    }
+}
+
 void SynthBase::oscMessageReceived (const juce::OSCMessage& message){
-    if (message.size() == 2 && message[0].isFloat32()){
-        
-        //std::string& name = message.getAddressPattern().toString().toStdString();
-        //valueChangedInternal(mopo::control_change(controls_[name], message[0].getFloat32()));
-        printf("OSC received.");
+    if (message.size() == 1 && message[0].isFloat32()){
+    
+        std::string tmp = message.getAddressPattern().toString().replace("/","").toStdString();
+        char name[tmp.size()+1];
+        strcpy(name, tmp.c_str());
+    
+        float value = message[0].getFloat32();
+
+        controls_[name]->set(value);
+            ValueChangedCallback* callback = new ValueChangedCallback(this, name, value);
+            setValueNotifyHost(name, value);
+            callback->post();
     }
 }
 
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
-
- // sender.send ("/"+name, (float) value);
-    
-    sender.send(OSCAddressPattern("/"+name), (float)value);
-    
-  value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
+   sender.send(OSCAddressPattern("/"+name), (float)value);
+   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
 }
 
 void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
@@ -178,7 +207,7 @@ void SynthBase::loadInitPatch() {
 
 void SynthBase::loadFromVar(juce::var state) {
   getCriticalSection().enter();
-  LoadSave::varToState(this, save_info_, state);
+    LoadSave::varToState(this, save_info_, state);
   getCriticalSection().exit();
 }
 
@@ -190,6 +219,35 @@ bool SynthBase::loadFromFile(File patch) {
     loadFromVar(parsed_json_state);
     setFolderName(parent.getFileNameWithoutExtension());
     setPatchName(patch.getFileNameWithoutExtension());
+      //std::cout <<  "xxxxx" << save_info_["settings"].length() << "\n";
+      
+      
+      auto patch_author = parsed_json_state["author"];
+      auto patch_name = parsed_json_state["patch_name"];
+    
+      sender.send(OSCAddressPattern("/patch/author"), patch_author.toString());
+      sender.send(OSCAddressPattern("/patch/name"), patch_name.toString());
+      
+      
+      auto settings = parsed_json_state["settings"];
+      auto settings_obj = settings.getDynamicObject();
+      //settings_obj->getProperties()
+      
+      for(auto setting : settings_obj->getProperties() ){
+          auto name = setting.name.toString();
+          if(setting.value.isString()){
+              auto value = setting.value.toString();
+              sender.send(OSCAddressPattern("/"+name), value);
+              
+          }
+          
+          if(setting.value.isDouble()){
+              auto value = (float)setting.value;
+              sender.send(OSCAddressPattern("/"+name), value);
+          }
+          
+          
+      }
 
     SynthGuiInterface* gui_interface = getGuiInterface();
     if (gui_interface) {
