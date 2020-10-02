@@ -219,34 +219,27 @@ bool SynthBase::loadFromFile(File patch) {
     loadFromVar(parsed_json_state);
     setFolderName(parent.getFileNameWithoutExtension());
     setPatchName(patch.getFileNameWithoutExtension());
-      //std::cout <<  "xxxxx" << save_info_["settings"].length() << "\n";
-      
-      
-      auto patch_author = parsed_json_state["author"];
-      auto patch_name = parsed_json_state["patch_name"];
+
+    auto patch_author = parsed_json_state["author"];
+    auto patch_name = parsed_json_state["patch_name"];
     
-      sender.send(OSCAddressPattern("/patch/author"), patch_author.toString());
-      sender.send(OSCAddressPattern("/patch/name"), patch_name.toString());
+    sender.send(OSCAddressPattern("/patch/author"), patch_author.toString());
+    sender.send(OSCAddressPattern("/patch/name"), patch_name.toString());
       
+    auto settings = parsed_json_state["settings"];
+    auto settings_obj = settings.getDynamicObject();
       
-      auto settings = parsed_json_state["settings"];
-      auto settings_obj = settings.getDynamicObject();
-      //settings_obj->getProperties()
-      
-      for(auto setting : settings_obj->getProperties() ){
-          auto name = setting.name.toString();
-          if(setting.value.isString()){
-              auto value = setting.value.toString();
-              sender.send(OSCAddressPattern("/"+name), value);
-              
-          }
+    for(auto setting : settings_obj->getProperties() ){
+        auto name = setting.name.toString();
+        if(setting.value.isString()){
+            auto value = setting.value.toString();
+            sender.send(OSCAddressPattern("/"+name), value);
+        }
           
-          if(setting.value.isDouble()){
-              auto value = (float)setting.value;
-              sender.send(OSCAddressPattern("/"+name), value);
-          }
-          
-          
+        if(setting.value.isDouble()){
+            auto value = (float)setting.value;
+            sender.send(OSCAddressPattern("/"+name), value);
+        }
       }
 
     SynthGuiInterface* gui_interface = getGuiInterface();
