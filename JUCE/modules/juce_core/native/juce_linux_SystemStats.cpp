@@ -134,9 +134,9 @@ static String getLocaleValue (nl_item key)
     return result;
 }
 
-String SystemStats::getUserLanguage()    { return getLocaleValue (_NL_IDENTIFICATION_LANGUAGE); }
-String SystemStats::getUserRegion()      { return getLocaleValue (_NL_IDENTIFICATION_TERRITORY); }
-String SystemStats::getDisplayLanguage() { return getUserLanguage() + "-" + getUserRegion(); }
+String SystemStats::getUserLanguage()    { }
+String SystemStats::getUserRegion()      { }
+String SystemStats::getDisplayLanguage() { }
 
 //==============================================================================
 void CPUInformation::initialise() noexcept
