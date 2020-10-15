@@ -110,13 +110,6 @@ public:
     forcedinline uint8 getRed() const noexcept        { return components.r; }
     forcedinline uint8 getGreen() const noexcept      { return components.g; }
     forcedinline uint8 getBlue() const noexcept       { return components.b; }
-
-    forcedinline uint8& getAlpha() noexcept           { return components.a; }
-    forcedinline uint8& getRed() noexcept             { return components.r; }
-    forcedinline uint8& getGreen() noexcept           { return components.g; }
-    forcedinline uint8& getBlue() noexcept            { return components.b; }
-
-
     //==============================================================================
     /** Copies another pixel colour over this one.
 
