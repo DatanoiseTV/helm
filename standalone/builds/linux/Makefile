@@ -25,8 +25,8 @@ endif
 
 JUCE_ARCH_LABEL := $(shell uname -m)
 CROSS_COMPILE=aarch64-buildroot-linux-musl-gcc-
-CC=aarch64-buildroot-linux-musl-gcc-gcc
-CXX=aarch64-buildroot-linux-musl-gcc-g++
+CC=/home/syso/dev/rpi-rt-4.4/buildroot-2020.08.1/output/host/bin/aarch64-buildroot-linux-musl-gcc
+CXX=/home/syso/dev/rpi-rt-4.4/buildroot-2020.08.1/output/host/bin/aarch64-buildroot-linux-musl-g++
 
 
 ifeq ($(CONFIG),Debug)
