@@ -94,9 +94,7 @@
  #include <net/if.h>
  #include <sys/ioctl.h>
 
- #if ! JUCE_ANDROID
-  #include <execinfo.h>
- #endif
+
 #endif
 
 #if JUCE_MAC || JUCE_IOS
