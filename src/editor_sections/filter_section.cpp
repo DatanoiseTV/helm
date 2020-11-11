@@ -171,6 +171,8 @@ void FilterSection::resized() {
   resizeHighPass(blend_->getRight() + style_label_padding_x, title_width + style_label_padding_y,
                  style_label_width - 2 * style_label_padding_x,
                  filter_type_width - 2 * style_label_padding_y);
+  
+  if (filter_style_ != nullptr) resetResponse();
 
   SynthSection::resized();
 }
