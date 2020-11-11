@@ -65,4 +65,4 @@ Open /builds/vs15/Helm.sln for plugin versions
  - Simple arpeggiator
  - Effects: Formant filter, stutter, delay, distortion, reverb
 
-![alt tag](http://tytel.org/static/images/helm_screenshot.png)
+![alt tag](images/screenshot.png?raw=true)
