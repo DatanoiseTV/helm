@@ -1,4 +1,4 @@
-## Helm
+## Helm++ - A fork of Helm with a focus on usability and performance
 ![alt tag](images/screenshot.png?raw=true)
 
 Helm is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a LV2/VST/AU/AAX plugin. Release is in beta so there are outstanding bugs.
