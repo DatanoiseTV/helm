@@ -56,12 +56,12 @@ OpenGLWaveViewer::~OpenGLWaveViewer() {
 }
 
 void OpenGLWaveViewer::paintBackground() {
-  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   if (getWidth() <= 0 || getHeight() <= 0)
     return;
 
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_image_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_image_);
@@ -218,7 +218,7 @@ void OpenGLWaveViewer::resetWavePath() {
     drawRandom();
   else
     drawSmoothRandom();
-  
+
   paintBackground();
 }
 

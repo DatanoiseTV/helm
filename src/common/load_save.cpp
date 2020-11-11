@@ -99,7 +99,7 @@ void LoadSave::loadControls(SynthBase* synth,
 void LoadSave::loadModulations(SynthBase* synth,
                                const Array<var>* modulations) {
   synth->clearModulations();
-  var* modulation = modulations->begin();
+  const var* modulation = modulations->begin();
 
   for (; modulation != modulations->end(); ++modulation) {
     DynamicObject* mod = modulation->getDynamicObject();
@@ -700,7 +700,7 @@ File LoadSave::getFactoryBankDirectory() {
 #ifdef LINUX
   patch_dir = File(LINUX_FACTORY_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
-  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
+  File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
   File data_dir = File::getSpecialLocation(File::commonDocumentsDirectory);

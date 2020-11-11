@@ -46,14 +46,14 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   addSubSection(patch_selector_ = new PatchSelector());
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
-  addSubSection(volume_section_ = new VolumeSection("Master Volume"));
+  addSubSection(volume_section_ = new VolumeSection("VOLUME"));
   addOpenGLComponent(oscilloscope_ = new OpenGLOscilloscope());
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
 
   logo_button_ = new ImageButton("logo_button");
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   if (display.scale > 1.5) {
     Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
                                            BinaryData::helm_icon_128_2x_pngSize);
@@ -128,9 +128,9 @@ FullInterface::~FullInterface() {
 void FullInterface::paint(Graphics& g) { }
 
 void FullInterface::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xcc000000), 3, juce::Point<int>(0, 1));
-  static const DropShadow logo_shadow(Colour(0xff000000), 8, juce::Point<int>(0, 0));
-  static const DropShadow component_shadow(Colour(0xcc000000), 5, juce::Point<int>(0, 1));
+  static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
+  static const DropShadow logo_shadow(Colour(0xff000000), 8, Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
   Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                BinaryData::helm_icon_32_2x_pngSize);
   g.setColour(Colors::background);
@@ -292,7 +292,7 @@ void FullInterface::animate(bool animate) {
 }
 
 void FullInterface::checkBackground() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   int width = scale * getWidth();
   int height = scale * getHeight();

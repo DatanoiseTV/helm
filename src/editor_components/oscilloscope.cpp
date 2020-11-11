@@ -29,20 +29,20 @@ Oscilloscope::Oscilloscope() : output_memory_(nullptr) { }
 Oscilloscope::~Oscilloscope() { }
 
 void Oscilloscope::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
   g.drawImageWithin(background_,
                     0, 0, getWidth(), getHeight(), RectanglePlacement());
 
   shadow.drawForPath(g, wave_path_);
 
-  g.setColour(Colour(0xffffffff));
+  g.setColour(Colors::graph_fill);
   g.fillPath(wave_path_);
   g.setColour(Colour(0xffaaaaaa));
   g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
 }
 
 void Oscilloscope::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   g.fillAll(Colour(0xff424242));
 
@@ -55,7 +55,7 @@ void Oscilloscope::paintBackground(Graphics& g) {
 
 
 void Oscilloscope::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_ = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_);
