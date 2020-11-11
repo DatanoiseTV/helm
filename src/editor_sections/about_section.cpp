@@ -83,7 +83,7 @@ AboutSection::AboutSection(String name) : Overlay(name) {
 }
 
 void AboutSection::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 5, juce::Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
   g.setColour(Colors::overlay_screen);
   g.fillAll();
@@ -99,7 +99,7 @@ void AboutSection::paint(Graphics& g) {
                                                BinaryData::helm_icon_128_1x_pngSize);
   shadow.drawForImage(g, helm_small);
 
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   if (display.scale > 1.5) {
     Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
                                            BinaryData::helm_icon_128_2x_pngSize);
@@ -110,7 +110,7 @@ void AboutSection::paint(Graphics& g) {
 
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(32.0));
   g.setColour(Colour(0xff2196f3));
-  g.drawText(TRANS("HELM++"),
+  g.drawText(TRANS("HELM"),
              0.0f, 0.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 
@@ -253,4 +253,3 @@ void AboutSection::setGuiSize(float multiplier) {
                        percent * mopo::DEFAULT_WINDOW_HEIGHT);
   }
 }
-

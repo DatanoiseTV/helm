@@ -60,7 +60,7 @@ void FilterResponse::paintBackground(Graphics& g) {
 }
 
 void FilterResponse::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   g.drawImage(background_,
               0, 0, getWidth(), getHeight(),
@@ -82,7 +82,7 @@ void FilterResponse::paint(Graphics& g) {
 }
 
 void FilterResponse::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_ = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_);
@@ -184,7 +184,7 @@ void FilterResponse::computeFilterCoefficients() {
     resonance = sqrt(resonance);
     gain = sqrt(gain);
   }
-  
+
   if (style_ == mopo::StateVariableFilter::kShelf) {
     mopo::BiquadFilter::Type type = mopo::BiquadFilter::kLowShelf;
     if (shelf == mopo::StateVariableFilter::kBandShelf)
@@ -201,7 +201,7 @@ void FilterResponse::computeFilterCoefficients() {
   resetResponsePath();
 }
 
-void FilterResponse::setFilterSettingsFromPosition(juce::Point<int> position) {
+void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
   if (cutoff_slider_) {
     double percent = mopo::utils::clamp((1.0 * position.x) / getWidth(), 0.0, 1.0);
     double frequency = cutoff_slider_->proportionOfLengthToValue(percent);
